@@ -380,8 +380,26 @@ public class LauncherModel extends BroadcastReceiver
             // Always post the loader task, instead of running directly (even on same thread) so
             // that we exit any nested synchronized blocks
             MODEL_EXECUTOR.post(mLoaderTask);
+
         }
     }
+
+    /*Add for show all apps in workspace start*/
+    /***
+     * Make a List<Pair<ItemInfo, Object>> which can AddWorkspacesItemsTask
+     * can handled from mBgAllAppsList
+     * @return List<Pair<ItemInfo, Object>>
+     */
+    public List<Pair<ItemInfo, Object>> getAllappsToworkspace(){
+        List<Pair<ItemInfo, Object>> pairList = new ArrayList<Pair<ItemInfo, Object>>();
+        for(AppInfo ai:mBgAllAppsList.data){
+            Pair<ItemInfo, Object> p = Pair.create(ai,null);
+            pairList.add(p);
+        }
+        return pairList;
+    }
+    /*Add for show all apps in workspace end*/
+
 
     public void startLoaderForResultsIfNotLoaded(LoaderResults results) {
         synchronized (mLock) {
@@ -432,9 +450,22 @@ public class LauncherModel extends BroadcastReceiver
                     mLoaderTask = null;
                 }
                 mIsLoaderTaskRunning = false;
+                moveAppsToWorkspace();
             }
         }
     }
+
+    /*Add for show all apps in workspace start*/
+    /**
+     * Move app item in mBgAllAppsList to workspace
+     */
+    private void moveAppsToWorkspace(){
+        AddWorkspaceItemsTask addWorkspaceItemsTask =
+                new AddWorkspaceItemsTask(getAllappsToworkspace());
+        addWorkspaceItemsTask.init(mApp, this, sBgDataModel, mBgAllAppsList, MAIN_EXECUTOR);
+        addWorkspaceItemsTask.run();
+    }
+    /*Add for show all apps in workspace end*/
 
     public LoaderTransaction beginLoader(LoaderTask task) throws CancellationException {
         return new LoaderTransaction(task);

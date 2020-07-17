@@ -37,6 +37,7 @@ import com.android.launcher3.compat.PackageInstallerCompat;
 import com.android.launcher3.util.GridOccupancy;
 import com.android.launcher3.util.IntArray;
 import com.android.launcher3.util.PackageManagerHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,6 @@ public class AddWorkspaceItemsTask extends BaseModelUpdateTask {
         if (mItemList.isEmpty()) {
             return;
         }
-
         final ArrayList<ItemInfo> addedItemsFinal = new ArrayList<>();
         final IntArray addedWorkspaceScreensFinal = new IntArray();
 
@@ -78,9 +78,9 @@ public class AddWorkspaceItemsTask extends BaseModelUpdateTask {
                     }
 
                     // b/139663018 Short-circuit this logic if the icon is a system app
-                    if (PackageManagerHelper.isSystemApp(app.getContext(), item.getIntent())) {
-                        continue;
-                    }
+//                    if (PackageManagerHelper.isSystemApp(app.getContext(), item.getIntent())) {
+//                        continue;
+//                    }
                 }
 
                 if (item.itemType == LauncherSettings.Favorites.ITEM_TYPE_APPLICATION) {
@@ -166,7 +166,6 @@ public class AddWorkspaceItemsTask extends BaseModelUpdateTask {
                 addedItemsFinal.add(itemInfo);
             }
         }
-
         if (!addedItemsFinal.isEmpty()) {
             scheduleCallbackTask(new CallbackTask() {
                 @Override
@@ -177,7 +176,7 @@ public class AddWorkspaceItemsTask extends BaseModelUpdateTask {
                         ItemInfo info = addedItemsFinal.get(addedItemsFinal.size() - 1);
                         int lastScreenId = info.screenId;
                         for (ItemInfo i : addedItemsFinal) {
-                            if (i.screenId == lastScreenId) {
+                            if (i.screenId == lastScreenId && mItemList.size()==1) {
                                 addAnimated.add(i);
                             } else {
                                 addNotAnimated.add(i);
