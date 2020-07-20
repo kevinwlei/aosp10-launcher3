@@ -581,4 +581,34 @@ public class LauncherModel extends BroadcastReceiver
     public Callbacks getCallback() {
         return mCallbacks != null ? mCallbacks.get() : null;
     }
+
+    /*Add for Hotseat size fit number of items start
+    /**
+     * Return list of items in hotseat
+     * @return
+     */
+    public List<ItemInfo> getHotseatList(){
+        List<ItemInfo> hotseatList = new ArrayList<ItemInfo>();
+        for(ItemInfo item : sBgDataModel.workspaceItems){
+            if(item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT){
+                hotseatList.add(item);
+            }
+        }
+        return hotseatList;
+    }
+
+    /**
+    * Get number of hotseat items
+    * @return
+    */
+    public int getHotseatItemsNumber(){
+        int result = 0;
+        for(ItemInfo item : sBgDataModel.workspaceItems){
+            if(item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT){
+                result++;
+            }
+        }
+        return result;
+    }
+    /*Add for Hotseat fit number of items  end*/
 }

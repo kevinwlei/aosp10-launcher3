@@ -399,6 +399,22 @@ public class BgDataModel {
         }
     }
 
+    /*Add for Hotseat size fit number of items start
+    /**
+     * Return list of items in hotseat
+     * @return
+     */
+    public List<ItemInfo> getHotseatList(){
+        List<ItemInfo> hotseatList = new ArrayList<ItemInfo>();
+        for(ItemInfo item : workspaceItems){
+            if(item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT){
+                hotseatList.add(item);
+            }
+        }
+        return hotseatList;
+    }
+    /*Add for Hotseat fit number of items  end*/
+
     public interface Callbacks {
         void rebindModel();
 

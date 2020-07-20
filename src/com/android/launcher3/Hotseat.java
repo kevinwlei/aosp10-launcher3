@@ -69,6 +69,25 @@ public class Hotseat extends CellLayout implements LogContainerProvider, Insetta
         }
     }
 
+    /*Add for Hotseat size fit number of items start*/
+
+    /**
+     * As hotseat size should fit for actual hotseat item's number
+     * so hotseat should reset layout according to number of hoteat item
+     * @param hasVerticalHotseat
+     * @param numHotseateIcons
+     */
+    public void resetLayout(boolean hasVerticalHotseat,int numHotseateIcons) {
+        removeAllViewsInLayout();
+        mHasVerticalHotseat = hasVerticalHotseat;
+        if (hasVerticalHotseat) {
+            setGridSize(1, numHotseateIcons);
+        } else {
+            setGridSize(numHotseateIcons, 1);
+        }
+    }
+    /*Add for Hotseat size fit number of items start*/
+
     @Override
     public void fillInLogContainerData(View v, ItemInfo info, Target target, Target targetParent) {
         target.gridX = info.cellX;

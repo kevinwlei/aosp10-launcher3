@@ -1959,7 +1959,11 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         mAppWidgetHost.clearViews();
 
         if (mHotseat != null) {
-            mHotseat.resetLayout(getWallpaperDeviceProfile().isVerticalBarLayout());
+            /*Add for Hotseat size fit number of items start*/
+            //mHotseat.resetLayout(getWallpaperDeviceProfile().isVerticalBarLayout());
+            mHotseat.resetLayout(getWallpaperDeviceProfile().isVerticalBarLayout(),
+                    getModel().getHotseatItemsNumber());
+            /*Add for Hotseat size fit number of items end*/
         }
         TraceHelper.endSection("startBinding");
     }
