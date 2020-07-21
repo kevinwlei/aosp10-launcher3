@@ -2296,7 +2296,12 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
 
         // Always pick the current page.
         if (layout == null && nextPage >= 0 && nextPage < getPageCount()) {
-            layout = (CellLayout) getChildAt(nextPage);
+            if(nextPage ==0){
+                layout = (CellLayout) getChildAt(nextPage+1);
+            }else{
+                layout = (CellLayout) getChildAt(nextPage);
+            }
+
         }
         if (layout != mDragTargetLayout) {
             setCurrentDropLayout(layout);
@@ -2310,7 +2315,7 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
      * Returns the child CellLayout if the point is inside the page coordinates, null otherwise.
      */
     private CellLayout verifyInsidePage(int pageNo, float[] touchXy)  {
-        if (pageNo >= 0 && pageNo < getPageCount()) {
+        if (pageNo > 0 && pageNo < getPageCount()) {
             CellLayout cl = (CellLayout) getChildAt(pageNo);
             mapPointFromSelfToChild(cl, touchXy);
             if (touchXy[0] >= 0 && touchXy[0] <= cl.getWidth() &&
