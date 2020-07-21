@@ -249,6 +249,8 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
     // Handles workspace state transitions
     private final WorkspaceStateTransitionAnimation mStateTransitionAnimation;
 
+    private static final int MAX_HOTSEAT_SIZE = 8;
+
     /**
      * Used to inflate the Workspace from XML.
      *
@@ -430,6 +432,12 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
 
     @Override
     public void onDragEnd() {
+        /*Add for hotseat size change according number of hotseat item dynamics start */
+        mLauncher.getModel().sortHotseatItemList();
+        mLauncher.getHotseat().updateLayout(mLauncher.getModel().getHotseatItemsNumber());
+        mLauncher.bindItems(mLauncher.getModel().getHotSeatItems(),false);
+        /*Add for hotseat size change according number of hotseat item dynamics end */
+
         if (ENFORCE_DRAG_EVENT_ORDER) {
             enforceDragParity("onDragEnd", 0, 0);
         }
@@ -2180,8 +2188,24 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
         // Handle the drag over
         if (mDragTargetLayout != null) {
             // We want the point to be mapped to the dragTarget.
-            mapPointFromDropLayout(mDragTargetLayout, mDragViewVisualCenter);
 
+            /*Add for hotseat size change according number of hotseat item dynamics start */
+            //mapPointFromDropLayout(mDragTargetLayout, mDragViewVisualCenter);
+            if (mLauncher.isHotseatLayout(mDragTargetLayout) &&
+                    d.dragInfo.container != LauncherSettings.Favorites.CONTAINER_HOTSEAT &&
+                    d.dragInfo.itemType!= LauncherSettings.Favorites.ITEM_TYPE_FOLDER) {
+                int currentHotseatNum = mLauncher.getModel().getHotseatItemsNumber();
+                if(currentHotseatNum < MAX_HOTSEAT_SIZE){
+                    mLauncher.getHotseat().updateLayout(currentHotseatNum + 1);
+                    mapPointFromDropLayout(mLauncher.getHotseat(), mDragViewVisualCenter);
+                }
+
+            } else {
+                mapPointFromSelfToChild(mDragTargetLayout, mDragViewVisualCenter);
+                int currentHotseatNum = mLauncher.getModel().getHotseatItemsNumber();
+                mLauncher.getHotseat().updateLayout(currentHotseatNum);
+            }
+            /*Add for hotseat size change according number of hotseat item dynamics end */
             int minSpanX = item.spanX;
             int minSpanY = item.spanY;
             if (item.minSpanX > 0 && item.minSpanY > 0) {

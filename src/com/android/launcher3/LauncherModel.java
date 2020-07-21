@@ -582,12 +582,12 @@ public class LauncherModel extends BroadcastReceiver
         return mCallbacks != null ? mCallbacks.get() : null;
     }
 
-    /*Add for Hotseat size fit number of items start
+    /*Add for Hotseat size fit number of items start */
     /**
      * Return list of items in hotseat
      * @return
      */
-    public List<ItemInfo> getHotseatList(){
+    public List<ItemInfo> getHotSeatItems(){
         List<ItemInfo> hotseatList = new ArrayList<ItemInfo>();
         for(ItemInfo item : sBgDataModel.workspaceItems){
             if(item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT){
@@ -611,4 +611,36 @@ public class LauncherModel extends BroadcastReceiver
         return result;
     }
     /*Add for Hotseat fit number of items  end*/
+
+    /*Add for hotseat size change according number of hotseat item dynamics start */
+    public void sortHotseatItemList(){
+        List<ItemInfo> itemList = getHotSeatItems();
+        ItemInfo[] hotseat_item = new ItemInfo[itemList.size()];
+        itemList.toArray(hotseat_item);
+        /**sort hotseat_item*/
+        if (hotseat_item.length == 0)
+            return;
+        for (int i = 0; i < hotseat_item.length; i++) {
+            int minIndex = i;
+            for (int j = i; j < hotseat_item.length; j++) {
+                if (hotseat_item[j].cellX < hotseat_item[minIndex].cellX)
+                    minIndex = j;
+            }
+            ItemInfo temp = hotseat_item[minIndex];
+            hotseat_item[minIndex] = hotseat_item[i];
+            hotseat_item[i] = temp;
+        }
+        for(int i= 0 ;i<hotseat_item.length;i++){
+            Log.d(TAG,"i = "+i+" cellx="+hotseat_item[i].cellX+" screen="+hotseat_item[i].screenId);
+            if(hotseat_item[i].cellX != i || hotseat_item[i].screenId !=i){
+                hotseat_item[i].cellX = i;
+                hotseat_item[i].screenId =i;
+                getWriter(false, true).
+                        updateItemInDatabase(hotseat_item[i]);
+                sBgDataModel.removeItem(mApp.getContext(), hotseat_item[i]);
+                sBgDataModel.addItem(mApp.getContext(), hotseat_item[i],false);
+            }
+        }
+    }
+    /*Add for hotseat size change according number of hotseat item dynamics end */
 }
