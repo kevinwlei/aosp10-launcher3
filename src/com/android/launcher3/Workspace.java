@@ -434,7 +434,7 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
     public void onDragEnd() {
         /*Add for hotseat size change according number of hotseat item dynamics start */
         mLauncher.getModel().sortHotseatItemList();
-        mLauncher.getHotseat().updateLayout(mLauncher.getModel().getHotseatItemsNumber());
+        mLauncher.getHotseat().resetLayout(false,mLauncher.getModel().getHotseatItemsNumber());
         mLauncher.bindItems(mLauncher.getModel().getHotSeatItems(),false);
         /*Add for hotseat size change according number of hotseat item dynamics end */
 
