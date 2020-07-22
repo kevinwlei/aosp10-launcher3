@@ -1649,7 +1649,14 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
             return false;
         }
 
-        boolean aboveShortcut = (dropOverView.getTag() instanceof WorkspaceItemInfo);
+        //boolean aboveShortcut = (dropOverView.getTag() instanceof WorkspaceItemInfo);
+        boolean aboveShortcut = false;
+        Object tag = dropOverView.getTag();
+        if(tag instanceof ItemInfo){
+            ItemInfo itemInfo = (ItemInfo)tag;
+            aboveShortcut = itemInfo.container != LauncherSettings.Favorites.CONTAINER_HOTSEAT;
+        }
+
         boolean willBecomeShortcut =
                 (info.itemType == ITEM_TYPE_APPLICATION ||
                         info.itemType == LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT ||
