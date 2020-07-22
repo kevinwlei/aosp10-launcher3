@@ -1847,8 +1847,9 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
                         .isRegionVacant(mTargetCell[0], mTargetCell[1], spanX, spanY);
                 int[] resultSpan = new int[2];
                 if (returnToOriginalCellToPreventShuffling||
-                        (hasMovedIntoHotseat && item.itemType
-                                == LauncherSettings.Favorites.ITEM_TYPE_FOLDER)){
+                        (hasMovedIntoHotseat && (item.itemType
+                                == LauncherSettings.Favorites.ITEM_TYPE_FOLDER ||
+                                mLauncher.getModel().getHotseatItemsNumber() >= MAX_HOTSEAT_SIZE))){
                     mTargetCell[0] = mTargetCell[1] = -1;
                 } else {
                     mTargetCell = dropTargetLayout.performReorder((int) mDragViewVisualCenter[0],
