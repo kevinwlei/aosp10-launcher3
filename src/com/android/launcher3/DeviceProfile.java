@@ -559,6 +559,7 @@ public class DeviceProfile {
     }
 
     public static int calculateCellWidth(int width, int countX) {
+        if(countX == 0) return 0;
         return width / countX;
     }
     public static int calculateCellHeight(int height, int countY) {
