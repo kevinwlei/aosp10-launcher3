@@ -19,6 +19,7 @@ package com.android.quickstep;
 import static com.android.launcher3.util.MainThreadInitializedObject.forOverride;
 
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.View;
 
 import com.android.launcher3.BaseActivity;
@@ -45,7 +46,8 @@ public class TaskOverlayFactory implements ResourceBasedOverride {
             new TaskSystemShortcut.SplitScreen(),
             new TaskSystemShortcut.Pin(),
             new TaskSystemShortcut.Install(),
-            new TaskSystemShortcut.Freeform()
+            new TaskSystemShortcut.Freeform(),
+            new TaskSystemShortcut.UnInstall()
     };
 
     public static final MainThreadInitializedObject<TaskOverlayFactory> INSTANCE =

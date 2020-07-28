@@ -337,4 +337,10 @@ public class TaskSystemShortcut<T extends SystemShortcut> extends SystemShortcut
             return null;
         }
     }
+
+    public static class UnInstall extends TaskSystemShortcut<SystemShortcut.UnInstall> {
+        public UnInstall() {
+            super(new SystemShortcut.UnInstall());
+        }
+    }
 }
