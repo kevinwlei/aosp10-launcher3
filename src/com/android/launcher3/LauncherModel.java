@@ -459,7 +459,7 @@ public class LauncherModel extends BroadcastReceiver
     /**
      * Move app item in mBgAllAppsList to workspace
      */
-    private void moveAppsToWorkspace(){
+    public void moveAppsToWorkspace(){
         AddWorkspaceItemsTask addWorkspaceItemsTask =
                 new AddWorkspaceItemsTask(getAllappsToworkspace());
         addWorkspaceItemsTask.init(mApp, this, sBgDataModel, mBgAllAppsList, MAIN_EXECUTOR);

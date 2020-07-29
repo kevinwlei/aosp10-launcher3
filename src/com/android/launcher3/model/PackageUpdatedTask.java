@@ -111,7 +111,6 @@ public class PackageUpdatedTask extends BaseModelUpdateTask {
                         appsList.removePackage(packages[i], mUser);
                     }
                     appsList.addPackage(context, packages[i], mUser);
-
                     // Automatically add homescreen icon for work profile apps for below O device.
                     if (!Utilities.ATLEAST_OREO && !Process.myUserHandle().equals(mUser)) {
                         SessionCommitReceiver.queueAppIconAddition(context, packages[i], mUser);
@@ -294,6 +293,7 @@ public class PackageUpdatedTask extends BaseModelUpdateTask {
             if (!widgets.isEmpty()) {
                 scheduleCallbackTask(c -> c.bindWidgetsRestored(widgets));
             }
+            getmModel().moveAppsToWorkspace();
         }
 
         final HashSet<String> removedPackages = new HashSet<>();

@@ -125,4 +125,8 @@ public abstract class BaseModelUpdateTask implements ModelUpdateTask {
             scheduleCallbackTask(c -> c.bindAllApplications(apps));
         }
     }
+
+    public LauncherModel getmModel() {
+        return mModel;
+    }
 }
